@@ -15,12 +15,19 @@ int main(int argc, char **argv) {
     enum tree_t tt = BST;
     const char *optstring = "f:odrc:h";
     char option;
-    tree t = tree_new(tt);
+    /*tree t = tree_new(tt);*/
     char word[256];
     int output_dot_file = 0;
     int print_tree_depth = 0;
     int unknownWords = 0;
     FILE *document = NULL;
+    
+    /*timing info */
+    clock_t fill_start, fill_end, search_start, search_end;
+    double fill_time = 0.0;
+    double search_time = 0.0;
+    /* end timing info */
+    
     while ((option = getopt(argc, argv, optstring)) != EOF){
         switch(option){
             case 'f':
@@ -49,12 +56,19 @@ int main(int argc, char **argv) {
                 printf("Use '-r' to make the tree an rbt instead of the default bst..\n");
                 printf("Use '-h' to print a help message describing how to use the program.\n");
                 break;
-
         }
     }
+    
+    /* timing info for fill */
+    fill_start = clock();
+    tree t = tree_new(tt);
     while (getword(word, sizeof word, stdin) != EOF) {
         t = tree_insert(t, word);
     }
+    fill_end = clock();
+    fill_time = (fill_end - fill_start)/(double)CLOCKS_PER_SEC;
+    /* end timing info for fill */
+    
     if (inputFilename == NULL){
         if (print_tree_depth == 1){
             printf("Depth: %d\n", tree_depth(t));
@@ -67,15 +81,26 @@ int main(int argc, char **argv) {
         }
     }
     else {
+        /* timing info for search */
+        search_start = clock();
         while (getword(word, sizeof word, document) != EOF) {
-            if (tree_search(t,word) == 0){
-                printf("%s\n", word);
+            if (tree_search(t, word) == 0){
+                fprintf(stdout, "%s\n", word);
                 unknownWords++;
             }
         }
-        printf("Unknown words: %d\n", unknownWords);
+        search_end = clock();
+        search_time = (search_end - search_start)/(double)CLOCKS_PER_SEC;
+        /*end timing info for search */
     }
     t = tree_free(t);
+    
+    /* printing info */
+    fprintf(stderr, "Fill time     : %f\n", fill_time);
+    fprintf(stderr, "Search time   : %f\n", search_time);
+    fprintf(stderr, "Unknown words = %d\n", unknown_words);
+    /* end printing info */
+    
     return EXIT_SUCCESS;
 }
 
