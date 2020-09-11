@@ -1,0 +1,16 @@
+digraph tree {
+node [shape = Mrecord, penwidth = 2];
+"here"[label="{<f0>here:1|{<f1>|<f2>}}"color=black];
+"a"[label="{<f0>a:1|{<f1>|<f2>}}"color=black];
+"here":f1 -> "a":f0;
+"is"[label="{<f0>is:1|{<f1>|<f2>}}"color=black];
+"long"[label="{<f0>long:1|{<f1>|<f2>}}"color=black];
+"line"[label="{<f0>line:1|{<f1>|<f2>}}"color=black];
+"long":f1 -> "line":f0;
+"of"[label="{<f0>of:1|{<f1>|<f2>}}"color=black];
+"text"[label="{<f0>text:1|{<f1>|<f2>}}"color=black];
+"of":f2 -> "text":f0;
+"long":f2 -> "of":f0;
+"is":f2 -> "long":f0;
+"here":f2 -> "is":f0;
+}
