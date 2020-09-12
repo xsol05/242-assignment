@@ -70,45 +70,55 @@ int main(int argc, char **argv) {
         }
     }
     
-    /* timing info for fill */
-    fill_start = clock();
-    t = tree_new(tree_t);
-    while (getword(word, sizeof word, stdin) != EOF) {
-        t = tree_insert(t, word);
-    }
-    fill_end = clock();
-    fill_time = (fill_end - fill_start)/(double)CLOCKS_PER_SEC;
-    /* end timing info for fill */
-    
-    if (inputFilename == NULL){
-        if (print_tree_depth == 1){
-            printf("Depth: %d\n", tree_depth(t));
+    if (optind < argc){
+        if (NULL == (document = fopen(argv[optind], "r"))){
+            fprintf(stderr, "Couldn't open file so exit program.\n");
+            exit(EXIT_FAILURE);
+        } else{
+            /* timing info for fill */
+            fill_start = clock();
+            t = tree_new(tree_t);
+            while (getword(word, sizeof word, stdin) != EOF) {
+                t = tree_insert(t, word);
+            }
+            fill_end = clock();
+            fill_time = (fill_end - fill_start)/(double)CLOCKS_PER_SEC;
+            /* end timing info for fill */
         }
-        else if (output_dot_file == 1){
-            tree_output_dot(t, fopen(outputFilename, "w"));
-        }
-        else {
-            tree_preorder(t, print_info);
-        }
-    }
-    else {
-        /* timing info for search */
-        search_start = clock();
-        while (getword(word, sizeof word, document) != EOF) {
-            if (tree_search(t, word) == 0){
-                fprintf(stdout, "%s\n", word);
-                unknownWords++;
+        fclose(document);
+            
+        if (inputFilename == NULL){
+            if (print_tree_depth == 1){
+                printf("Depth: %d\n", tree_depth(t));
+            }
+            else if (output_dot_file == 1){
+                tree_output_dot(t, fopen(outputFilename, "w"));
+            }
+            else {
+                tree_preorder(t, print_info);
             }
         }
-        search_end = clock();
-        search_time = (search_end - search_start)/(double)CLOCKS_PER_SEC;
-        /*end timing info for search */
-        /* printing info */
-        fprintf(stderr, "Fill time     : %f\n", fill_time);
-        fprintf(stderr, "Search time   : %f\n", search_time);
-        fprintf(stderr, "Unknown words = %d\n", unknownWords);
-        /* end printing info */
-    }
+        else {
+            /* timing info for search */
+            search_start = clock();
+            while (getword(word, sizeof word, document) != EOF) {
+                if (tree_search(t, word) == 0){
+                    fprintf(stdout, "%s\n", word);
+                    unknownWords++;
+                }
+            }
+            search_end = clock();
+            search_time = (search_end - search_start)/(double)CLOCKS_PER_SEC;
+            /*end timing info for search */
+            
+            /* printing info */
+            fprintf(stderr, "Fill time     : %f\n", fill_time);
+            fprintf(stderr, "Search time   : %f\n", search_time);
+            fprintf(stderr, "Unknown words = %d\n", unknownWords);
+            /* end printing info */
+        }
+    }    
+      
     t = tree_free(t);
     return EXIT_SUCCESS;
 }
