@@ -6,7 +6,7 @@
 #define IS_BLACK(x) ((NULL==(x)) || (BLACK == (x)->colour))
 #define IS_RED(x) ((NULL != (x)) && (RED == (x)->colour))
 typedef enum { RED, BLACK} tree_colour;
-enum tree_t tree_type;
+enum tree_e tree_type;
 struct tree_node {
     char *key;
     tree_colour colour;
@@ -208,6 +208,14 @@ tree tree_insert(tree t, char *str){
     }
     return t;
 }
+
+/**
+ * Sets a new tree instance to its starting state.
+ * Uses the value of the tree_t parameter to set the tree's tree_type
+ * to either BST or RBT.
+ *
+ * @param t the tree type of the new tree
+ */
 
 tree tree_new(tree_t t){
     if(t == RBT){

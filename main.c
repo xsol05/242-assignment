@@ -13,7 +13,7 @@ static void print_info(int freq, char *word){
 int main(int argc, char **argv) {
     const char *outputFilename = "tree-view.dot";
     const char *inputFilename = NULL;
-    enum tree_t tt = BST;
+    enum tree_e tree_t = BST;
     const char *optstring = "f:odrc:h";
     char option;
     char word[256];
@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
                 outputFilename = optarg;
                 break;
             case 'r':
-                tt = RBT;
+                tree_t = RBT;
                 break;
             case 'c':
                 document = fopen(optarg, "r");
@@ -48,20 +48,31 @@ int main(int argc, char **argv) {
                 break;
             case 'h':
             default:
-                printf("-------------\nRun the default program using the command './tree'.\nUse command line arguments as follows:\n");
-                printf("Use '-c filename' in order to check the spelling of words in 'filename' using words read from stdin as the dictionary. Unknown words, timing information and unknown count are printed to stderr.\n");
+                printf("\n\n");
+                printf("Run the default program using the command './tree'.\n");
+                printf("Use command line arguments as follows:\n");
+                printf("Use '-c filename' in order to check the spelling of ");
+                printf("words in 'filename'. Use words read from stdin as ");
+                printf("the dictionary. Unknown words, timing information ");
+                printf("and unknown count are printed to stderr.\n");
                 printf("Use '-d' to solely print the depth of the tree.\n");
-                printf("Use '-f filename' to write the 'dot' output to filename instead of the default file name if '-o' is also given.\n");
-                printf("Use '-o' to output a representation of the tree in 'dot' form to the file 'tree-view.dot' using the functions given in output-dot.txt.\n");
-                printf("Use '-r' to make the tree an rbt instead of the default bst..\n");
-                printf("Use '-h' to print a help message describing how to use the program.\n");
+                printf("Use '-f filename' to write the 'dot' output to ");
+                printf("filename instead of the default file name if '-o' ");
+                printf("is also given.\n");
+                printf("Use '-o' to output a representation of the tree in ");
+                printf("'dot' form to the file 'tree-view.dot' using the ");
+                printf("functions given in output-dot.txt.\n");
+                printf("Use '-r' to make the tree an rbt instead of the ");
+                printf("default bst..\n");
+                printf("Use '-h' to print a help message describing how to ");
+                printf("use the program.\n");
                 break;
         }
     }
     
     /* timing info for fill */
     fill_start = clock();
-    t = tree_new(tt);
+    t = tree_new(tree_t);
     while (getword(word, sizeof word, stdin) != EOF) {
         t = tree_insert(t, word);
     }
