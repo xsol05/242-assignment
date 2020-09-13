@@ -64,7 +64,8 @@ int main(int argc, char **argv) {
                 break;
             case 'c':
                 if (NULL == (document = fopen(optarg, "r"))) {
-                    fprintf(stderr, "Can't open file '%s'using mode r.\n", optarg);
+                    fprintf(stderr, "Can't open file '%s'using mode r.\n",
+                            optarg);
                     return EXIT_FAILURE;
                 }
                 else {
