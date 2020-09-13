@@ -40,39 +40,37 @@ static void print_info(int freq, char *word) {
  * @return: The exit status of the program, either EXIT_SUCCESS or EXIT_FALIURE
  */
 int main(int argc, char **argv) {
-    const char *outputFilename = "tree-view.dot";
-    const char *inputFilename = NULL;
+    const char *output_file_name = "tree-view.dot";
+    const char *input_file_name = NULL;
     enum tree_e tree_t = BST;
     const char *optstring = "f:odrc:h";
     char option;
     char word[256];
     int output_dot_file = 0;
     int print_tree_depth = 0;
-    int emptyTree = 1;
-    int unknownWords = 0;
+    int empty_tree = 1;
+    int unknown_words = 0;
+    int file_missing = 0;
     FILE *document = NULL;
     tree t;
     clock_t fill_start, fill_end, search_start, search_end;
     double fill_time = 0.0;
     double search_time = 0.0;
     
+    
     while ((option = getopt(argc, argv, optstring)) != EOF) {
         switch(option) {
             case 'f':
-                outputFilename = optarg;
+                output_file_name = optarg;
                 break;
             case 'r':
                 tree_t = RBT;
                 break;
             case 'c':
                 if (NULL == (document = fopen(optarg, "r"))) {
-                    fprintf(stderr, "Can't open file '%s'using mode r.\n",
-                            optarg);
-                    return EXIT_FAILURE;
+                    file_missing = 1;
                 }
-                else {
-                    inputFilename = optarg;
-                }
+                input_file_name = optarg;
                 break;
             case 'o':
                 output_dot_file = 1;
@@ -112,19 +110,27 @@ int main(int argc, char **argv) {
     
     fill_start = clock();
     while (getword(word, sizeof word, stdin) != EOF) {
-        t = tree_insert(t, word, emptyTree);
-        emptyTree = 0;
+        t = tree_insert(t, word, empty_tree);
+        empty_tree = 0;
     }
     fill_end = clock();
     fill_time = (fill_end - fill_start)/(double)CLOCKS_PER_SEC;
     
-    if (inputFilename == NULL) {
+    
+    if(file_missing == 1){
+        fprintf(stderr, "Can't open file '%s' using mode r.\n",
+                input_file_name);
+        input_file_name = NULL;
+        return (EXIT_FAILURE);
+    }
+    
+    if (input_file_name == NULL) {
         if (print_tree_depth == 1) {
             printf("%d\n", tree_depth(t));
         }
         else if (output_dot_file == 1) {
-            printf("Creating dot file '%s'\n", outputFilename);
-            tree_output_dot(t, fopen(outputFilename, "w"));
+            printf("Creating dot file '%s'\n", output_file_name);
+            tree_output_dot(t, fopen(output_file_name, "w"));
         }
         else {
             tree_preorder(t, print_info);
@@ -134,7 +140,7 @@ int main(int argc, char **argv) {
         while (getword(word, sizeof word, document) != EOF) {
             if (tree_search(t, word) == 0) {
                 fprintf(stdout, "%s\n", word);
-                unknownWords++;
+                unknown_words++;
             }
         }
         fclose(document);
@@ -143,7 +149,7 @@ int main(int argc, char **argv) {
             
         fprintf(stderr, "Fill time     : %f\n", fill_time);
         fprintf(stderr, "Search time   : %f\n", search_time);
-        fprintf(stderr, "Unknown words = %d\n", unknownWords);
+        fprintf(stderr, "Unknown words = %d\n", unknown_words);
     }
     
     t = tree_free(t);

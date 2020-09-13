@@ -57,7 +57,7 @@ tree tree_new(tree_t t) {
 static tree right_rotate(tree t) {
     tree temp = t;
     t = t->left;
-    t->parent = NULL;
+    t->parent = temp->parent;
     temp->left = t->right;
     if (temp->right != NULL) {
         temp->left->parent = temp;
@@ -81,7 +81,7 @@ static tree right_rotate(tree t) {
 static tree left_rotate(tree t) {
     tree temp = t;
     t = t->right;
-    t->parent = NULL;
+    t->parent = temp->parent;
     temp->right = t->left;
     if (temp->right != NULL) {
         temp->right->parent = temp;
@@ -108,7 +108,7 @@ static tree tree_fix(tree t) {
         if (IS_RED(t->right)) {
             t->left->colour = BLACK;
             t->right->colour = BLACK;
-            if (t->parent == NULL) {
+            if (t->parent == NULL || t->parent->key == NULL) {
                 t->colour = BLACK;
             } else {
                 t->colour = RED;
@@ -122,7 +122,7 @@ static tree tree_fix(tree t) {
         if (IS_RED(t->right)) {
             t->left->colour = BLACK;
             t->right->colour = BLACK;
-            if (t->parent == NULL) {
+            if (t->parent == NULL || t->parent->key == NULL) {
                 t->colour = BLACK;
             } else {
                 t->colour = RED;
@@ -137,7 +137,7 @@ static tree tree_fix(tree t) {
         if (IS_RED(t->left)) {
             t->left->colour = BLACK;
             t->right->colour = BLACK;
-            if (t->parent == NULL) {
+            if (t->parent == NULL || t->parent->key == NULL) {
                 t->colour = BLACK;
             } else {
                 t->colour = RED;
@@ -152,7 +152,7 @@ static tree tree_fix(tree t) {
         if (IS_RED(t->left)) {
             t->left->colour = BLACK;
             t->right->colour = BLACK;
-            if (t->parent == NULL) {
+            if (t->parent == NULL || t->parent->key == NULL) {
                 t->colour = BLACK;
             } else {
                 t->colour = RED;
@@ -204,6 +204,7 @@ tree tree_insert(tree t, char *str, int isRoot) {
     t = emalloc(sizeof *t);
     t->key = emalloc((strlen(str) + 1) * sizeof str[0]);
     t->parent = emalloc(sizeof *t->parent);
+    t->parent->key = NULL;
     strcpy(t->key, str);
     t->frequency = 1;
     t->left = NULL;
