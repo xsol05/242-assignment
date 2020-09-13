@@ -53,22 +53,22 @@ int main(int argc, char **argv) {
                 break;
             case 'h':
             default:
-                printf("Usage: %s [OPTION]... <STDIN>\n", argv[0]);
-                printf("\n");
-                printf("Perform various operations using a binary tree.  ");
-                printf("By default, words\nare read from stdin and added");
-                printf(" to the tree, before being printed out\n");
-                printf("alongside their frequencies to stdout.\n\n");
-                printf("-c FILENAME\tCheck spelling of words in FILENAME");
-                printf(" using words\n\t\tread from stdin as the dictionary.");
-                printf("Print timing\n\t\tinfo & unknown words to stderr ");
-                printf("(ignore -d & -o)\n-d\t\tOnly print the tree depth ");
-                printf("(ignore -o)\n-f FILENAME\tWrite DOT output to ");
-                printf("FILENAME (if -o given)\n");
-                printf("-o\t\tOutput the tree in DOT form to file ");
-                printf("'tree-view.dot'\n");
-                printf("-r\t\tMake the tree an RBT (the default is a BST)");
-                printf("\n\n-h\t\tPrint this message\n\n");
+                 fprintf(stderr, "Usage: ./%s [OPTION]... <STDIN>\n", argv[0]);
+                 fprintf(stderr, "\n");
+                 fprintf(stderr, "Perform various operations using a binary tree.  By default, words\n");
+                 fprintf(stderr, "are read from stdin and added to the tree, before being printed out\n");
+                 fprintf(stderr, "alongside their frequencies to stdout.\n");
+                 fprintf(stderr, "\n");
+                 fprintf(stderr, "-c FILENAME Check spelling of words in FILENAME using words\n");
+                 fprintf(stderr, "            read from stdin as the dictionary.  Print timing\n");
+                 fprintf(stderr, "            info & unknown words to stderr (ignore -d & -o)\n");
+                 fprintf(stderr, "-d          Only print the tree depth (ignore -o)\n");
+                 fprintf(stderr, "-f FILENAME Write DOT output to FILENAME (if -o given)\n");
+                 fprintf(stderr, "-o          Output the tree in DOT form to file 'tree-view.dot'\n");
+                 fprintf(stderr, "-r          Make the tree an RBT (the default is a BST)\n");
+                 fprintf(stderr, "\n");
+                 fprintf(stderr, "-h          Print this message\n");
+                 fprintf(stderr, "\n");
                 return(EXIT_SUCCESS);
                 break;
         }
