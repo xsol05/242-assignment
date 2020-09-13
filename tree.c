@@ -185,7 +185,7 @@ static tree tree_fix(tree t) {
  *
  * @return The new updated tree
  */
-tree tree_insert(tree t, char *str, int isRoot) {
+tree tree_insert(tree t, char *str, int is_root) {
     while (t != NULL) {
         if (strcmp(t->key, str) < 0) {
             t->right = tree_insert(t->right, str, 0);
@@ -217,7 +217,7 @@ tree tree_insert(tree t, char *str, int isRoot) {
     if (tree_type == RBT) {
         t->colour = RED;
         t = tree_fix(t);
-        if (isRoot == 1) {
+        if (is_root == 1) {
             t->colour = BLACK;
         }
     }
