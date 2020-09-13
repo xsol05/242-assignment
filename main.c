@@ -22,15 +22,15 @@ static void print_info(int freq, char *word) {
 }
 
 /*
- * Processes two groups of words and effectively performs a basic spell check.
- * The first group of words will be read from stdin and will be inserted into
- * the tree.
- * The second group of words will be read from a file specified on the command
- * line.
- * If any word read from the file is not contained in the tree then it should
- * get printed to stdout.
+ * Deals with input based on the different option flags given which are 
+ * -f, -o, -d, -r, -c, -h. Details are in the help message.
+ *
+ * In particular for the -c option flag, this program effectively performs
+ * a basic spell check.
+ * 
  * This program is implemented as a combination tree ADT which can be either an
  * ordinary binary search tree or a balanced red-black tree.
+ *
  * This function will deallocate all memory before finishing. 
  *
  * @param argc: The number of command line arguments
