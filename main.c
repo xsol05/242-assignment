@@ -57,7 +57,6 @@ int main(int argc, char **argv) {
     double fill_time = 0.0;
     double search_time = 0.0;
     
-    
     while ((option = getopt(argc, argv, optstring)) != EOF) {
         switch(option) {
             case 'f':
@@ -107,7 +106,6 @@ int main(int argc, char **argv) {
     }
     
     t = tree_new(tree_t);
-    
     fill_start = clock();
     while (getword(word, sizeof word, stdin) != EOF) {
         t = tree_insert(t, word, empty_tree);
@@ -115,24 +113,22 @@ int main(int argc, char **argv) {
     }
     fill_end = clock();
     fill_time = (fill_end - fill_start)/(double)CLOCKS_PER_SEC;
-    
-    
-    if(file_missing == 1){
+    if (empty_tree == 1) {
+        return(EXIT_FAILURE);
+    }
+    if (file_missing == 1){
         fprintf(stderr, "Can't open file '%s' using mode r.\n",
                 input_file_name);
         input_file_name = NULL;
         return (EXIT_FAILURE);
     }
-    
     if (input_file_name == NULL) {
         if (print_tree_depth == 1) {
             printf("%d\n", tree_depth(t));
-        }
-        else if (output_dot_file == 1) {
+        } else if (output_dot_file == 1) {
             printf("Creating dot file '%s'\n", output_file_name);
             tree_output_dot(t, fopen(output_file_name, "w"));
-        }
-        else {
+        } else {
             tree_preorder(t, print_info);
         }
     } else {
@@ -151,7 +147,6 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Search time   : %f\n", search_time);
         fprintf(stderr, "Unknown words = %d\n", unknown_words);
     }
-    
     t = tree_free(t);
     return EXIT_SUCCESS;
 }
