@@ -47,6 +47,7 @@ int main(int argc, char **argv) {
     char word[256];
     int output_dot_file = 0;
     int print_tree_depth = 0;
+    int emptyTree = 1;
     int unknownWords = 0;
     FILE *document = NULL;
     tree t;
@@ -110,7 +111,8 @@ int main(int argc, char **argv) {
     
     fill_start = clock();
     while (getword(word, sizeof word, stdin) != EOF) {
-        t = tree_insert(t, word);
+        t = tree_insert(t, word, emptyTree);
+        emptyTree = 0;
     }
     fill_end = clock();
     fill_time = (fill_end - fill_start)/(double)CLOCKS_PER_SEC;

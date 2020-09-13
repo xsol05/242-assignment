@@ -13,6 +13,7 @@ struct tree_node {
     tree left;
     tree right;
     int frequency;
+    tree parent;
 };
 
 
@@ -48,8 +49,13 @@ tree tree_new(tree_t t){
 static tree right_rotate(tree t){
     tree temp = t;
     t = t->left;
+    t->parent = NULL;
     temp->left = t->right;
+    if (temp->right != NULL){
+        temp->left->parent = temp;
+    }
     t->right = temp;
+    temp->parent = t;
     return t;
 }
 
@@ -65,8 +71,13 @@ static tree right_rotate(tree t){
 static tree left_rotate(tree t){
     tree temp = t;
     t = t->right;
+    t->parent = NULL;
     temp->right = t->left;
+    if (temp->right != NULL){
+        temp->right->parent = temp;
+    }
     t->left = temp;
+    temp->parent = t;
     return t;
 }
 
@@ -85,19 +96,24 @@ static tree tree_fix(tree t){
             t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
+            if (t->parent == NULL){
+                t->colour = BLACK;
+            }
         }
         else {
             t = right_rotate(t);
             t->colour = BLACK;
             t->right->colour = RED;
         }
-        return t;
     }
-    if (IS_RED(t->left) && IS_RED(t->left->right)){
+    else if (IS_RED(t->left) && IS_RED(t->left->right)){
         if(IS_RED(t->right)){
             t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
+            if (t->parent == NULL){
+                t->colour = BLACK;
+            }
         }
         else {
             t->left = left_rotate(t->left);
@@ -105,13 +121,15 @@ static tree tree_fix(tree t){
             t->colour = BLACK;
             t->right->colour = RED;
         }
-        return t;
     }
-    if (IS_RED(t->right) && IS_RED(t->right->left)){
+    else if (IS_RED(t->right) && IS_RED(t->right->left)){
         if(IS_RED(t->left)){
             t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
+            if (t->parent == NULL){
+                t->colour = BLACK;
+            }
         }
         else {
             t->right = right_rotate(t->right);
@@ -119,13 +137,15 @@ static tree tree_fix(tree t){
             t->colour = BLACK;
             t->left->colour = RED;
         }
-        return t;
     }
-    if (IS_RED(t->right) && IS_RED(t->right->right)){
+    else if (IS_RED(t->right) && IS_RED(t->right->right)){
         if(IS_RED(t->left)){
             t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
+            if (t->parent == NULL){
+                t->colour = BLACK;
+            }
         }
         else {
             t = left_rotate(t);
@@ -135,6 +155,7 @@ static tree tree_fix(tree t){
         return t;
     }
     return t;
+
 }
 
 
@@ -149,17 +170,19 @@ static tree tree_fix(tree t){
  * @param t the tree in which to insert the string
  * @param str the string to be inserted
  */
-tree tree_insert(tree t, char *str){
+tree tree_insert(tree t, char *str, int isRoot){
     while (t != NULL){
         if(strcmp(t->key, str) < 0){
-            t->right = tree_insert(t->right, str);
+            t->right = tree_insert(t->right, str, 0);
+            t->right->parent = t;
             if(tree_type == RBT){
                 t = tree_fix(t);
             }
             return t;
         }
         else if(strcmp(t->key, str) > 0){
-            t->left = tree_insert(t->left, str);
+            t->left = tree_insert(t->left, str, 0);
+            t->left->parent = t;
             if(tree_type == RBT){
                 t= tree_fix(t);
             }
@@ -172,6 +195,7 @@ tree tree_insert(tree t, char *str){
     }
     t = emalloc(sizeof *t);
     t->key = emalloc((strlen(str) + 1) * sizeof str[0]);
+    t->parent = emalloc(sizeof *t->parent);
     strcpy(t->key, str);
     t->frequency = 1;
     t->left = NULL;
@@ -179,6 +203,9 @@ tree tree_insert(tree t, char *str){
     if(tree_type == RBT){
         t->colour = RED;
         t = tree_fix(t);
+        if(isRoot == 1){
+            t->colour = BLACK;
+        }
     }
     return t;
 }
