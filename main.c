@@ -1,5 +1,6 @@
 /*
  * COSC242 Assignment 2020
+ * Main function
  * Authors: Maaha Ahmad, Magdeline Huang, Kate Truman
  */
 
@@ -14,8 +15,8 @@
 /* 
  * Prints the frequencies of the words
  *
- * @param freq: The number of times the word appears
- * @param word: The word of interest
+ * @param freq The number of times the word appears
+ * @param word The word of interest
  */
 static void print_info(int freq, char *word) {
     printf("%-4d %s\n", freq, word);
@@ -33,8 +34,8 @@ static void print_info(int freq, char *word) {
  *
  * This function will deallocate all memory before finishing. 
  *
- * @param argc: The number of command line arguments
- * @param argv: An array of strings that holds the command line arguments
+ * @param argc The number of command line arguments
+ * @param argv An array of strings that holds the command line arguments
  *
  * @return: The exit status of the program, either EXIT_SUCCESS or EXIT_FALIURE
  */
@@ -121,7 +122,7 @@ int main(int argc, char **argv) {
         if (print_tree_depth == 1) {
             printf("%d\n", tree_depth(t));
         }
-        else if (output_dot_file == 1){
+        else if (output_dot_file == 1) {
             printf("Creating dot file '%s'\n", outputFilename);
             tree_output_dot(t, fopen(outputFilename, "w"));
         }
@@ -131,7 +132,7 @@ int main(int argc, char **argv) {
     } else {
         search_start = clock();
         while (getword(word, sizeof word, document) != EOF) {
-            if (tree_search(t, word) == 0){
+            if (tree_search(t, word) == 0) {
                 fprintf(stdout, "%s\n", word);
                 unknownWords++;
             }
