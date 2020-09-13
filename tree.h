@@ -13,6 +13,9 @@
 typedef enum tree_e {BST, RBT} tree_t;
 typedef struct tree_node *tree;
 
+/*
+ * Functions that are implemented in tree.c
+ */
 extern tree tree_free(tree t);
 extern void tree_inorder(tree t, void f(char *str));
 extern tree tree_insert(tree t, char *str, int isRoot);
