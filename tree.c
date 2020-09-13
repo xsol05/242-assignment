@@ -13,7 +13,7 @@
 #define IS_BLACK(x) ((NULL==(x)) || (BLACK == (x)->colour))
 #define IS_RED(x) ((NULL != (x)) && (RED == (x)->colour))
 
-typedef enum { RED, BLACK} tree_colour;
+typedef enum { RED, BLACK } tree_colour;
 enum tree_e tree_type;
 
 struct tree_node {
@@ -32,6 +32,7 @@ struct tree_node {
  * to either a BST or RBT.
  *
  * @param t Tree type of the new tree
+ *
  * @return A new NULL tree
  */
 tree tree_new(tree_t t) {
@@ -52,6 +53,7 @@ tree tree_new(tree_t t) {
  * root to the original root of the tree.
  *
  * @param t The tree to be right rotated
+ *
  * @return The updated tree
  */
 static tree right_rotate(tree t) {
@@ -76,6 +78,7 @@ static tree right_rotate(tree t) {
  * root to the original root of the tree.
  *
  * @param t The tree to be right rotated
+ *
  * @return The new updated tree
  */
 static tree left_rotate(tree t) {
@@ -101,6 +104,7 @@ static tree left_rotate(tree t) {
  * to the specified tree.
  *
  * @param t The tree that needs to be fixed
+ *
  * @return The new updated tree
  */
 static tree tree_fix(tree t) {
@@ -178,6 +182,7 @@ static tree tree_fix(tree t) {
  *
  * @param t The tree in which to insert the string
  * @param str The string to be inserted
+ *
  * @return The new updated tree
  */
 tree tree_insert(tree t, char *str, int isRoot) {
@@ -189,7 +194,7 @@ tree tree_insert(tree t, char *str, int isRoot) {
                 t = tree_fix(t);
             }
             return t;
-        } else if(strcmp(t->key, str) > 0) {
+        } else if (strcmp(t->key, str) > 0) {
             t->left = tree_insert(t->left, str, 0);
             t->left->parent = t;
             if (tree_type == RBT) {
@@ -225,6 +230,7 @@ tree tree_insert(tree t, char *str, int isRoot) {
  *
  * @param t Tree to be traversed
  * @param f Function to apply to each node in the tree
+ *
  * @return The new updated tree
  */
 void tree_inorder(tree t, void f(char *str)) {
@@ -266,6 +272,7 @@ void tree_preorder(tree t, void f(int freq, char *str)) {
  * node. Leaves in the tree have a depth of zero.
  *
  * @param t The tree for which the depth should be found
+ *
  * @return The depth found
  */
 int tree_depth(tree t) {
@@ -320,7 +327,6 @@ void tree_colour_print(tree t) {
  * @return Integer specifying whether the string was found (1)
  * or not (0)
  */
-
 int tree_search(tree t, char *str) {
     if (t == NULL || t->key == NULL) {
         return 0;
@@ -339,7 +345,6 @@ int tree_search(tree t, char *str) {
  * @param t The tree to output a DOT description of.
  * @param out The stream to write the DOT output to.
  */
-
 static void tree_output_dot_aux(tree t, FILE *out) {
     if (t->key != NULL) {
         fprintf(out, "\"%s\"[label=\"{<f0>%s:%d|{<f1>|<f2>}}\"color=%s];\n",
@@ -383,6 +388,7 @@ void tree_output_dot(tree t, FILE *out) {
  * root to the original root of the tree.
  *
  * @param t The tree to be right rotated
+ *
  * @return NULL
  */
 tree tree_free(tree t) {
