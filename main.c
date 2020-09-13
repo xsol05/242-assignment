@@ -70,6 +70,8 @@ int main(int argc, char **argv) {
         }
     }
     
+    t = tree_new(tree_t);
+    
     if (optind < argc){
         if (NULL == (document = fopen(argv[optind], "r"))){
             fprintf(stderr, "Couldn't open file so exit program.\n");
@@ -77,7 +79,6 @@ int main(int argc, char **argv) {
         } else{
             /* timing info for fill */
             fill_start = clock();
-            t = tree_new(tree_t);
             while (getword(word, sizeof word, stdin) != EOF) {
                 t = tree_insert(t, word);
             }
