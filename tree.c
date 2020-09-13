@@ -93,11 +93,13 @@ static tree left_rotate(tree t){
 static tree tree_fix(tree t){
     if (IS_RED(t->left) && IS_RED(t->left->left)){
         if (IS_RED(t->right)){
-            t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
             if (t->parent == NULL){
                 t->colour = BLACK;
+            }
+            else {
+                t->colour = RED;
             }
         }
         else {
@@ -108,11 +110,13 @@ static tree tree_fix(tree t){
     }
     else if (IS_RED(t->left) && IS_RED(t->left->right)){
         if(IS_RED(t->right)){
-            t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
             if (t->parent == NULL){
                 t->colour = BLACK;
+            }
+            else {
+                t->colour = RED;
             }
         }
         else {
@@ -124,11 +128,13 @@ static tree tree_fix(tree t){
     }
     else if (IS_RED(t->right) && IS_RED(t->right->left)){
         if(IS_RED(t->left)){
-            t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
             if (t->parent == NULL){
                 t->colour = BLACK;
+            }
+            else {
+                t->colour = RED;
             }
         }
         else {
@@ -140,11 +146,13 @@ static tree tree_fix(tree t){
     }
     else if (IS_RED(t->right) && IS_RED(t->right->right)){
         if(IS_RED(t->left)){
-            t->colour = RED;
             t->left->colour = BLACK;
             t->right->colour = BLACK;
             if (t->parent == NULL){
                 t->colour = BLACK;
+            }
+            else {
+                t->colour = RED;
             }
         }
         else {
