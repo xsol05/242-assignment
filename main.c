@@ -37,7 +37,7 @@ static void print_info(int freq, char *word) {
  * @param argc The number of command line arguments
  * @param argv An array of strings that holds the command line arguments
  *
- * @return: The exit status of the program, either EXIT_SUCCESS or EXIT_FALIURE
+ * @return The exit status of the program, either EXIT_SUCCESS or EXIT_FALIURE
  */
 int main(int argc, char **argv) {
     const char *output_file_name = "tree-view.dot";
@@ -116,7 +116,7 @@ int main(int argc, char **argv) {
     if (empty_tree == 1) {
         return(EXIT_FAILURE);
     }
-    if (file_missing == 1){
+    if (file_missing == 1) {
         fprintf(stderr, "Can't open file '%s' using mode r.\n",
                 input_file_name);
         input_file_name = NULL;
