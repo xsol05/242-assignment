@@ -230,8 +230,6 @@ tree tree_insert(tree t, char *str, int is_root) {
  *
  * @param t Tree to be traversed
  * @param f Function to apply to each node in the tree
- *
- * @return Exit the loop
  */
 void tree_inorder(tree t, void f(char *str)) {
     if (t != NULL) {
@@ -243,7 +241,6 @@ void tree_inorder(tree t, void f(char *str)) {
             tree_inorder(t->right, f);
         }
     }
-    return;
 }
 
 /*
