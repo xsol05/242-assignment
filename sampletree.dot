@@ -1,0 +1,28 @@
+digraph tree {
+node [shape = Mrecord, penwidth = 2];
+"is"[label="{<f0>is:1|{<f1>|<f2>}}"color=black];
+"file"[label="{<f0>file:1|{<f1>|<f2>}}"color=black];
+"a"[label="{<f0>a:1|{<f1>|<f2>}}"color=black];
+"check"[label="{<f0>check:1|{<f1>|<f2>}}"color=red];
+"a":f2 -> "check":f0;
+"file":f1 -> "a":f0;
+"i"[label="{<f0>i:1|{<f1>|<f2>}}"color=black];
+"for"[label="{<f0>for:1|{<f1>|<f2>}}"color=red];
+"i":f1 -> "for":f0;
+"file":f2 -> "i":f0;
+"is":f1 -> "file":f0;
+"that"[label="{<f0>that:1|{<f1>|<f2>}}"color=black];
+"test"[label="{<f0>test:1|{<f1>|<f2>}}"color=black];
+"spelling"[label="{<f0>spelling:1|{<f1>|<f2>}}"color=red];
+"test":f1 -> "spelling":f0;
+"that":f1 -> "test":f0;
+"to"[label="{<f0>to:1|{<f1>|<f2>}}"color=red];
+"this"[label="{<f0>this:1|{<f1>|<f2>}}"color=black];
+"the"[label="{<f0>the:1|{<f1>|<f2>}}"color=red];
+"this":f1 -> "the":f0;
+"to":f1 -> "this":f0;
+"want"[label="{<f0>want:1|{<f1>|<f2>}}"color=black];
+"to":f2 -> "want":f0;
+"that":f2 -> "to":f0;
+"is":f2 -> "that":f0;
+}

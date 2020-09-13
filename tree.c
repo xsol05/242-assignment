@@ -32,6 +32,7 @@ struct tree_node {
  * to either a BST or RBT.
  *
  * @param t Tree type of the new tree
+ * @return A new NULL tree
  */
 tree tree_new(tree_t t) {
     if (t == RBT) {
@@ -51,6 +52,7 @@ tree tree_new(tree_t t) {
  * root to the original root of the tree.
  *
  * @param t The tree to be right rotated
+ * @return the updated tree
  */
 static tree right_rotate(tree t) {
     tree temp = t;
@@ -74,6 +76,7 @@ static tree right_rotate(tree t) {
  * root to the original root of the tree.
  *
  * @param t The tree to be right rotated
+ * @return the new updated tree
  */
 static tree left_rotate(tree t) {
     tree temp = t;
@@ -98,6 +101,7 @@ static tree left_rotate(tree t) {
  * to the specified tree.
  *
  * @param t The tree that needs to be fixed
+ * @return the new updated tree
  */
 static tree tree_fix(tree t) {
     if (IS_RED(t->left) && IS_RED(t->left->left)) {
@@ -174,6 +178,7 @@ static tree tree_fix(tree t) {
  *
  * @param t The tree in which to insert the string
  * @param str The string to be inserted
+ * @return the new updated tree
  */
 tree tree_insert(tree t, char *str, int isRoot) {
     while (t != NULL) {
@@ -219,6 +224,7 @@ tree tree_insert(tree t, char *str, int isRoot) {
  *
  * @param t Tree to be traversed
  * @param f Function to apply to each node in the tree
+ * @return the new updated tree
  */
 void tree_inorder(tree t, void f(char *str)) {
     if (t!= NULL) {
@@ -251,7 +257,7 @@ void tree_preorder(tree t, void f(int freq, char *str)) {
 
 /*
  * Finds the tree depth of a given tree, where the tree depth is
- * the length of the longest parth between the root node and the
+ * the length of the longest path between the root node and the
  * furthest leaf node.
  * 
  * This function operates recursively, by setting the depth of the
@@ -259,6 +265,7 @@ void tree_preorder(tree t, void f(int freq, char *str)) {
  * node. Leaves in the tree have a depth of zero.
  *
  * @param t The tree for which the depth should be found
+ * @return the depth found
  */
 int tree_depth(tree t) {
     int left_depth;
@@ -309,7 +316,8 @@ void tree_colour_print(tree t) {
  * @param t The tree to be searched
  * @param str The string to search for
  *
- * @return int Specifying whether the string was found
+ * @return integer specifying whether the string was found (1)
+ * or not (0)
  */
 
 int tree_search(tree t, char *str) {
@@ -374,6 +382,7 @@ void tree_output_dot(tree t, FILE *out) {
  * root to the original root of the tree.
  *
  * @param t The tree to be right rotated
+ * @return NULL
  */
 tree tree_free(tree t) {
     if (t!= NULL) {
