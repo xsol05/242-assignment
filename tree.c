@@ -16,67 +16,34 @@ struct tree_node {
 };
 
 
-tree tree_free(tree t){
-    if (t!= NULL){
-        t->left = tree_free(t->left);
-        t->right = tree_free(t->right);
-        free(t->key);
-        free(t);
+/**
+ * Sets a new tree instance to its starting state.
+ * Uses the value of the tree_t parameter to set the tree's tree_type
+ * to either BST or RBT.
+ *
+ * @param t the tree type of the new tree
+ */
+
+tree tree_new(tree_t t){
+    if(t == RBT){
+        tree_type = RBT;
+    }
+    else {
+        tree_type = BST;
     }
     return NULL;
 }
-tree tree_delete(tree t, char *str){
-    if (t== NULL){
-        return t;
-    }
-    if (strcmp(t->key, str) < 0){
-        t->right = tree_delete(t->right, str);
-        return t;
-    }
-    else if (strcmp(t->key, str) > 0){
-        t->left = tree_delete(t->left, str);
-        return t;
-    }
-    else {
-        if (t->left == NULL && t->right == NULL){
-            tree_free(t);
-            return NULL;
-        }
-        else if(t->left != NULL && t->right != NULL){
-            tree c = t->right;
-            tree temp = NULL;
-            while (c->left != NULL){
-                c = c->left;
-            }
-            temp = t;
-            strcpy(t->key, c->key);
-            strcpy(c->key, temp->key);
-            t->right = tree_delete(t->right, c->key);
-            return t;
-        }
-        else {
-            if (t->left == NULL){
-                return t->right;
-            }
-            else {
-                return t->left;
-            }
-        }
-    }
-}
-void tree_inorder(tree t, void f(char *str)){
-    if (t!= NULL){
-        if (t->left != NULL){
-            tree_inorder(t->left, f);
-        }
-        f(t->key);
-        if (t->right != NULL){
-            tree_inorder(t->right, f);
-        }
-    }
-    return;
- 
-}
+
+
+/**
+ * Right rotates a given tree.
+ * The tree is right rotated by setting the root's left child to be the root
+ * of the tree and setting the left child of the original root to be
+ * the right child of the new root. We then set the right child of the new
+ * root to the original root of the tree.
+ *
+ * @param t the tree to be right rotated
+ */
 
 static tree right_rotate(tree t){
     tree temp = t;
@@ -86,7 +53,15 @@ static tree right_rotate(tree t){
     return t;
 }
 
-
+/**
+ * Left rotates a given tree.
+ * The tree is left rotated by setting the root's right child to be the root
+ * of the tree and setting the right child of the original root to be
+ * the left child of the new root. We then set the right child of the new
+ * root to the original root of the tree.
+ *
+ * @param t the tree to be right rotated
+ */
 static tree left_rotate(tree t){
     tree temp = t;
     t = t->right;
@@ -95,6 +70,15 @@ static tree left_rotate(tree t){
     return t;
 }
 
+/**
+ * Fixes the colour of nodes in a given tree, so that the tree
+ * fulfills the properties of a red-black tree (except for the node being black).
+ * This function checks the colour of child nodes and uses the left_rotate
+ * and right_rotate functions to restore properties of a red-black tree to the
+ * specified tree.
+ *
+ * @param t the tree that needs to be fixed
+ */
 static tree tree_fix(tree t){
     if (IS_RED(t->left) && IS_RED(t->left->left)){
         if (IS_RED(t->right)){
@@ -153,28 +137,18 @@ static tree tree_fix(tree t){
     return t;
 }
 
-int tree_depth(tree t){
-    int left_depth;
-    int right_depth;
-    if(t->left == NULL && t->right == NULL){
-        return 0;
-    }
-    if(t->left == NULL){
-        return 1 + tree_depth(t->right);
-    }
-    if (t->right == NULL){
-        return 1 + tree_depth(t->left);
-    }
-    left_depth = tree_depth(t->left);
-    right_depth = tree_depth(t->right);
-    if (left_depth > right_depth){
-        return 1 + left_depth;
-    }
-    else {
-        return 1 + right_depth;
-    }
-}
 
+/**
+ * Inserts a specified string into a specified tree.
+ * By comparing the keys of nodes of the tree to the string,
+ * the method correctly navigates down the tree to find
+ * the correct position for the string. If the string can be already found in
+ * the tree, the frequency of the node at which the string is found is incremented
+ * by one.
+ *
+ * @param t the tree in which to insert the string
+ * @param str the string to be inserted
+ */
 tree tree_insert(tree t, char *str){
     while (t != NULL){
         if(strcmp(t->key, str) < 0){
@@ -209,24 +183,33 @@ tree tree_insert(tree t, char *str){
     return t;
 }
 
-/**
- * Sets a new tree instance to its starting state.
- * Uses the value of the tree_t parameter to set the tree's tree_type
- * to either BST or RBT.
- *
- * @param t the tree type of the new tree
- */
 
-tree tree_new(tree_t t){
-    if(t == RBT){
-        tree_type = RBT;
+/**Traverses a given tree in inorder and applies a given
+ * function to each node in the tree.
+ *
+ * @param t tree to be traversed
+ * @param f function to apply to each node in the tree
+ */
+void tree_inorder(tree t, void f(char *str)){
+    if (t!= NULL){
+        if (t->left != NULL){
+            tree_inorder(t->left, f);
+        }
+        f(t->key);
+        if (t->right != NULL){
+            tree_inorder(t->right, f);
+        }
     }
-    else {
-        tree_type = BST;
-    }
-    return NULL;
+    return;
 }
 
+
+/**Traverses a given tree in preorder and applies a given
+ * function to each node in the tree.
+ *
+ * @param t tree to be traversed
+ * @param f function to apply to each node in the tree
+ */
 
 void tree_preorder(tree t, void f(int freq, char *str)){
     if (t == NULL || t->key == NULL){
@@ -237,6 +220,46 @@ void tree_preorder(tree t, void f(int freq, char *str)){
     tree_preorder(t->right, f);
 }
 
+
+
+/**
+ * Finds the tree depth of a given tree, where the tree depth is
+ * the length of the longest parth between the root node and the
+ * furthest leaf node.
+ * This function operates recursively, by setting the depth of the
+ * current node to be one greater than the depth of its deepest child
+ * node. Leaves in the tree have a depth of zero.
+ *
+ * @param t the tree for which the depth should be found
+ */
+int tree_depth(tree t){
+    int left_depth;
+    int right_depth;
+    if(t->left == NULL && t->right == NULL){
+        return 0;
+    }
+    if(t->left == NULL){
+        return 1 + tree_depth(t->right);
+    }
+    if (t->right == NULL){
+        return 1 + tree_depth(t->left);
+    }
+    left_depth = tree_depth(t->left);
+    right_depth = tree_depth(t->right);
+    if (left_depth > right_depth){
+        return 1 + left_depth;
+    }
+    else {
+        return 1 + right_depth;
+    }
+}
+
+
+/**
+ * Prints the colour of each node of the tree using preorder traversal.
+ *
+ * @param t the tree to be traversed
+ */
 
 void tree_colour_print(tree t){
         if (IS_BLACK(t)){
@@ -254,6 +277,16 @@ void tree_colour_print(tree t){
        
 }
 
+/**
+ * Searches the given tree for a given string.
+ * This function calls itself recursively in order to check nodes
+ * where the string could possibly be located.
+ * Returns 0 if the string is not found, and 1 if it is found.
+ *
+ * @param t the tree to be searched
+ * @param str the string to search for
+ * @return int specifying whether the string was found.
+ */
 
 int tree_search(tree t, char *str){
     if(t == NULL || t->key == NULL){
@@ -313,3 +346,21 @@ void tree_output_dot(tree t, FILE *out) {
    fprintf(out, "}\n");
 }
 
+/**
+ * Frees memory allocated for a given tree.
+ * The tree is right rotated by setting the root's left child to be the root
+ * of the tree and setting the left child of the original root to be
+ * the right child of the new root. We then set the right child of the new
+ * root to the original root of the tree.
+ *
+ * @param t the tree to be right rotated
+ */
+tree tree_free(tree t){
+    if (t!= NULL){
+        t->left = tree_free(t->left);
+        t->right = tree_free(t->right);
+        free(t->key);
+        free(t);
+    }
+    return NULL;
+}
