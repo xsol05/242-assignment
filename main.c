@@ -54,24 +54,22 @@ int main(int argc, char **argv) {
                 break;
             case 'h':
             default:
+                printf("Usage: ./%s [OPTION]... <STDIN>\n", argv[0]);
                 printf("\n");
-                printf("Run the default program using the command './tree'.\n");
-                printf("Use command line arguments as follows:\n");
-                printf("Use '-c filename' in order to check the spelling of ");
-                printf("words in 'filename'. Use words read from stdin as ");
-                printf("the dictionary. Unknown words, timing information ");
-                printf("and unknown count are printed to stderr.\n");
-                printf("Use '-d' to solely print the depth of the tree.\n");
-                printf("Use '-f filename' to write the 'dot' output to ");
-                printf("filename instead of the default file name if '-o' ");
-                printf("is also given.\n");
-                printf("Use '-o' to output a representation of the tree in ");
-                printf("'dot' form to the file 'tree-view.dot' using the ");
-                printf("functions given in output-dot.txt.\n");
-                printf("Use '-r' to make the tree an rbt instead of the ");
-                printf("default bst..\n");
-                printf("Use '-h' to print a help message describing how to ");
-                printf("use the program.\n");
+                printf("Perform various operations using a binary tree.  By default, words\n");
+                printf("are read from stdin and added to the tree, before being printed out\n");
+                printf("alongside their frequencies to stdout.\n");
+                printf("\n");
+                printf("-c FILENAME Check spelling of words in FILENAME using words\n");
+                printf("            read from stdin as the dictionary.  Print timing\n");
+                printf("            info & unknown words to stderr (ignore -d & -o)\n");
+                printf("-d          Only print the tree depth (ignore -o)\n");
+                printf("-f FILENAME Write DOT output to FILENAME (if -o given)\n");
+                printf("-o          Output the tree in DOT form to file 'tree-view.dot'\n");
+                printf("-r          Make the tree an RBT (the default is a BST)\n");
+                printf("\n");
+                printf("-h          Print this message\n");
+                printf("\n");
                 break;
         }
     }
