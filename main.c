@@ -42,7 +42,6 @@ int main(int argc, char **argv) {
                     return EXIT_FAILURE;
                 }
                 else {
-                    document = fopen(optarg, "r");
                     inputFilename = optarg;
                 }
                 break;
@@ -84,12 +83,12 @@ int main(int argc, char **argv) {
     fill_end = clock();
     fill_time = (fill_end - fill_start)/(double)CLOCKS_PER_SEC;
     /* end timing info for fill */
-    /*fclose(document);*/
     if (inputFilename == NULL){
         if (print_tree_depth == 1){
-            printf("Depth: %d\n", tree_depth(t));
+            printf("%d\n", tree_depth(t));
         }
         else if (output_dot_file == 1){
+            printf("Creating dot file '%s'\n", outputFilename);
             tree_output_dot(t, fopen(outputFilename, "w"));
         }
         else {
@@ -105,6 +104,7 @@ int main(int argc, char **argv) {
                 unknownWords++;
             }
         }
+        fclose(document);
         search_end = clock();
         search_time = (search_end - search_start)/(double)CLOCKS_PER_SEC;
         /*end timing info for search */
