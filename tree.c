@@ -231,10 +231,10 @@ tree tree_insert(tree t, char *str, int is_root) {
  * @param t Tree to be traversed
  * @param f Function to apply to each node in the tree
  *
- * @return The new updated tree
+ * @return Exit the loop
  */
 void tree_inorder(tree t, void f(char *str)) {
-    if (t!= NULL) {
+    if (t != NULL) {
         if (t->left != NULL) {
             tree_inorder(t->left, f);
         }
@@ -332,7 +332,7 @@ int tree_search(tree t, char *str) {
         return 0;
     } else if (strcmp(t->key, str) > 0) {
         return tree_search(t->left, str);
-    } else if(strcmp(t->key, str) < 0) {
+    } else if (strcmp(t->key, str) < 0) {
         return tree_search(t->right, str);
     }
     return 1;
@@ -392,7 +392,7 @@ void tree_output_dot(tree t, FILE *out) {
  * @return NULL
  */
 tree tree_free(tree t) {
-    if (t!= NULL) {
+    if (t != NULL) {
         t->left = tree_free(t->left);
         t->right = tree_free(t->right);
         free(t->key);
