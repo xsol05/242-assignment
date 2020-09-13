@@ -23,9 +23,12 @@ static void print_info(int freq, char *word) {
 
 /*
  * Processes two groups of words and effectively performs a basic spell check.
- * The first group of words will be read from stdin and will be inserted into the tree.
- * The second group of words will be read from a file specified on the command line.
- * If any word read from the file is not contained in the tree then it should get printed to stdout.
+ * The first group of words will be read from stdin and will be inserted into
+ * the tree.
+ * The second group of words will be read from a file specified on the command
+ * line.
+ * If any word read from the file is not contained in the tree then it should
+ * get printed to stdout.
  * This program is implemented as a combination tree ADT which can be either an
  * ordinary binary search tree or a balanced red-black tree.
  * This function will deallocate all memory before finishing. 
@@ -61,7 +64,7 @@ int main(int argc, char **argv) {
                 break;
             case 'c':
                 if (NULL == (document = fopen(optarg, "r"))) {
-                    fprintf(stderr, "Can't open file '%s' using mode r.\n", optarg);
+                    fprintf(stderr, "Can't open file '%s'using mode r.\n", optarg);
                     return EXIT_FAILURE;
                 }
                 else {
@@ -76,22 +79,27 @@ int main(int argc, char **argv) {
                 break;
             case 'h':
             default:
-                fprintf(stderr, "Usage: ./%s [OPTION]... <STDIN>\n", argv[0]);
-                fprintf(stderr, "\n");
-                fprintf(stderr, "Perform various operations using a binary tree.  By default, words\n");
-                fprintf(stderr, "are read from stdin and added to the tree, before being printed out\n");
-                fprintf(stderr, "alongside their frequencies to stdout.\n");
-                fprintf(stderr, "\n");
-                fprintf(stderr, "-c FILENAME  Check spelling of words in FILENAME using words\n");
-                fprintf(stderr, "             read from stdin as the dictionary.  Print timing\n");
-                fprintf(stderr, "             info & unknown words to stderr (ignore -d & -o)\n");
-                fprintf(stderr, "-d           Only print the tree depth (ignore -o)\n");
-                fprintf(stderr, "-f FILENAME  Write DOT output to FILENAME (if -o given)\n");
-                fprintf(stderr, "-o           Output the tree in DOT form to file 'tree-view.dot'\n");
-                fprintf(stderr, "-r           Make the tree an RBT (the default is a BST)\n");
-                fprintf(stderr, "\n");
-                fprintf(stderr, "-h           Print this message\n");
-                fprintf(stderr, "\n");
+                fprintf(stderr, "Usage: %s [OPTION]... <STDIN>\n\n", argv[0]);
+                fprintf(stderr, "Perform various operations using a binary ");
+                fprintf(stderr, "tree. By default, words\nare read from stdin");
+                fprintf(stderr, " and added to the tree, before being printed");
+                fprintf(stderr, " out\nalongside their frequencies to stdout.");
+                fprintf(stderr, "\n\n");
+                fprintf(stderr, "-c FILENAME  Check spelling of words in ");
+                fprintf(stderr, "FILENAME using words\n             ");
+                fprintf(stderr, "read from stdin as the ");
+                fprintf(stderr, "dictionary.  Print timing\n             ");
+                fprintf(stderr, "info & unknown words to stderr ");
+                fprintf(stderr, "(ignore -d & -o)\n");
+                fprintf(stderr, "-d\t     Only print the tree depth ");
+                fprintf(stderr, "(ignore -o)\n");
+                fprintf(stderr, "-f FILENAME  Write DOT output to FILENAME ");
+                fprintf(stderr, "(if -o given)\n");
+                fprintf(stderr, "-o\t     Output the tree in DOT form to ");
+                fprintf(stderr, "file 'tree-view.dot'\n");
+                fprintf(stderr, "-r\t     Make the tree an RBT (the default");
+                fprintf(stderr, " is a BST)\n\n");
+                fprintf(stderr, "-h\t     Print this message\n\n");
                 return(EXIT_SUCCESS);
                 break;
         }
