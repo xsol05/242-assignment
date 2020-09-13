@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
     double search_time = 0.0;
     
     while ((option = getopt(argc, argv, optstring)) != EOF) {
-        switch(option) {
+        switch (option) {
             case 'f':
                 output_file_name = optarg;
                 break;
